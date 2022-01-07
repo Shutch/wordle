@@ -9,38 +9,12 @@ def read_word_list(file_name = '5_letter_words.txt'):
     return word_list
 
 def pick_next_word(word_list, correct_letters, misplaced_letters):
-    """Selects the next word given a word list.
-
-    Scores all words in the word list based on the following:
-    Each unique letter: +2
-    Each misplaced letter: -1
-    Each correct letter: -2
-    """
+    """Selects the next word given a word list."""
     # getting word with all unique letters and no correct letters matching
-    # for i in range(5, 0, -1):
-    max_score = 0
-    max_word = None
-    for word in word_list:
-        # unique letters
-        score = len(set(word)) * 2
-
-        # correct_letters
-        for letter, indexes in correct_letters.items():
-            for index in indexes:
-                if word[index] == letter:
-                    score -= 2
-
-        # misplaced letters
-        for letter, indexes in misplaced_letters.items():
-            if letter in word:
-                score -= 1
-
-        if score > max_score:
-            max_score = score
-            max_word = word
-
-    print(f"Word: {max_word}, Score {max_score}")
-    return max_word
+    for i in range(5, 0, -1):
+        for word in word_list:
+            if len(set(word)) == i:
+                return word
 
 def trim_word_list(word_list, absent_letters, correct_letters, misplaced_letters):
     """Reduces the word list to match the current set of criteria.
@@ -97,12 +71,10 @@ if __name__ == "__main__":
     word = pick_next_word(word_list, correct_letters, misplaced_letters)
     print(f"Next word: {word}")
 
-
-    absent_letters = ['r', 'i', 's', 'e', 'c', 'u', 'l', 'd', 'h', 'r', 'w']
-    correct_letters = {'o':[3]}
-    misplaced_letters = {'a':[1], 'o':[1], 't':[0]}
+    absent_letters = ['a', 'o', 's', 't', 'h', 'w', 'd', 'f', 'b', 'l', 'v']
+    correct_letters = {'r':[4], 'i':[1], 'e':[3]}
+    misplaced_letters = {'r':[1], 'e':[2,4], 'i':[3]}
     word_list = trim_word_list(word_list, absent_letters, correct_letters, misplaced_letters)
     word = pick_next_word(word_list, correct_letters, misplaced_letters)
     print(f"Next word: {word}")
-
     print(word_list)
