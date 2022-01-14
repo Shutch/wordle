@@ -27,26 +27,23 @@ def trim_word_list(word_list, absent_letters, correct_letters, misplaced_letters
     
     The valid word list is returned.
     """
-    print(f"Word list len: {len(word_list)}")
-
-    # absent letters
+    # exclude words with absent letters
     for letter in absent_letters:
         word_list = [w for w in word_list if letter not in w]
-    print(f"Word list len: {len(word_list)}")
 
+    # include words with correct letters in the right spots
     for letter, indexes in correct_letters.items():
         for index in indexes:
             word_list = [w for w in word_list if w[index] == letter]
-    print(f"Word list len: {len(word_list)}")
 
+    # exclude words with misplaced letters in the known wrong spot
     for letter, indexes in misplaced_letters.items():
         for index in indexes:
             word_list = [w for w in word_list if w[index] != letter]
-    print(f"Word list len: {len(word_list)}")
 
+    # include words with misplaced letters in unknown spots
     for letter, indexes in misplaced_letters.items():
         word_list = [w for w in word_list if letter in w]
-    print(f"Word list len: {len(word_list)}")
 
     return word_list
 
@@ -71,10 +68,12 @@ if __name__ == "__main__":
     word = pick_next_word(word_list, correct_letters, misplaced_letters)
     print(f"Next word: {word}")
 
-    absent_letters = ['a', 'o', 's', 't', 'h', 'w', 'd', 'f', 'b', 'l', 'v']
-    correct_letters = {'r':[4], 'i':[1], 'e':[3]}
-    misplaced_letters = {'r':[1], 'e':[2,4], 'i':[3]}
+    absent_letters = ['t', 'h', 'i', 'r', 'p' ,'l', 'c', 's', 'k', 'd', 'x', 'm', 'n']
+    correct_letters = {'a':[0], 'e':[3]}
+    misplaced_letters = {'e':[2,4], 'a':[2]}
     word_list = trim_word_list(word_list, absent_letters, correct_letters, misplaced_letters)
+    print(f"Word list len: {len(word_list)}")
     word = pick_next_word(word_list, correct_letters, misplaced_letters)
     print(f"Next word: {word}")
+
     print(word_list)
